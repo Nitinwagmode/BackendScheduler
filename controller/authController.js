@@ -65,13 +65,14 @@ exports.login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
     // Create JWT token (role is retrieved from the user's data)
-    const payload = { userId: user.email, role: user.role };
+    const payload = { userId: user._id, userEmail: user.email, role: user.role };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Return the token and user info
     res.status(200).json({
       token,
       user: {
+        id: user._id,
         username: user.username,
         email: user.email,
         role: user.role

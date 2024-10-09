@@ -3,6 +3,7 @@ const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const cors = require('cors'); // Import cors
 
+
 // Load environment variables
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.use(cors()); // Allows requests from any origin
 
 // Define routes
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/events', require('./routes/eventRoutes')); 
+app.use('/api/users', require('./routes/userRoutes'));
 
 // const PORT = process.env.PORT || 5000;
 const PORT = process.env.PORT || 5000;
