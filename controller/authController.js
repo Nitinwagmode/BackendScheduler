@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 // Signup
 exports.signup = async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const { username, email, password, tech } = req.body;
   try {
     // Check if the user already exists
     let user = await User.findOne({ email });
@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
     const allowedRoles = ['admin', 'co-admin', 'ReactJs', 'SQL'];
 
     // Check if the provided role is allowed
-    if (!allowedRoles.includes(role)) {
+    if (!allowedRoles.includes(tech)) {
       return res.status(400).json({ msg: 'Invalid role provided' });
     }
 
@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
       username,
       email,
       password,
-      role
+      tech
     });
 
     // Hash password
@@ -34,7 +34,7 @@ exports.signup = async (req, res) => {
     await user.save();
 
     // Create JWT token
-    const payload = { userId: user.email, role: user.role };
+    const payload = { userId: user.email , tech: user.tech };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Return token along with user info
@@ -43,7 +43,7 @@ exports.signup = async (req, res) => {
       user: {
         username: user.username,
         email: user.email,
-        role: user.role
+        tech: user.tech
       }
     });
   } catch (error) {
@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
     // Create JWT token (role is retrieved from the user's data)
-    const payload = { userId: user._id, userEmail: user.email, role: user.role };
+    const payload = { userId: user._id, userEmail: user.email, tech: user.tech };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Return the token and user info
@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        role: user.role
+        tech: user.tech
       }
     });
   } catch (error) {
