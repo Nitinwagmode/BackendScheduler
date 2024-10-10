@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 // Signup
 exports.signup = async (req, res) => {
-  const { username, email, password, tech } = req.body;
+  const { name, email, password, tech } = req.body;
   try {
     // Check if the user already exists
     let user = await User.findOne({ email });
@@ -20,7 +20,7 @@ exports.signup = async (req, res) => {
 
     // Create new user with the assigned role
     user = new User({
-      username,
+      name,
       email,
       password,
       tech
@@ -41,7 +41,7 @@ exports.signup = async (req, res) => {
     res.status(201).json({
       token,
       user: {
-        username: user.username,
+        name: user.name,
         email: user.email,
         tech: user.tech
       }
@@ -73,7 +73,7 @@ exports.login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         tech: user.tech
       }
