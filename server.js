@@ -29,6 +29,8 @@ app.use(cors()); // Allows requests from any origin
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/events', require('./routes/eventRoutes')); 
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/mentors', require('./routes/mentorRoutes'));
+app.use('/api/co-admins', require('./routes/coAdminRoutes'));
 
 // const PORT = process.env.PORT || 5000;
 const PORT = process.env.PORT || 5000;
