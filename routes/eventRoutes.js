@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', createEvent);
 
 // GET api/events - Get all events
-router.get('/', authenticate, getEvents);
+router.get('/:id', authenticate, getEvents);
 
 // DELETE api/events/:id - Delete an event
 router.delete('/:id', deleteEvent);
