@@ -33,25 +33,39 @@ exports.createEvent = async (req, res) => {
 };
 
 // Get all events
-// Get all events
-exports.getEvents = async (req, res) => {
-    console.log('User from request:', req.user); // Debugging line
-    try {
-        const userId = req.user.userId; // Corrected line to access userId
+// exports.getEvents = async (req, res) => {
+//     console.log('User from request:', req.user); // Debugging line
+//     try {
+//         const userId = req.user.userId; // Corrected line to access userId
         
-        if (!userId) {
-            return res.status(400).json({ msg: 'User ID not found' });
-        }
+//         if (!userId) {
+//             return res.status(400).json({ msg: 'User ID not found' });
+//         }
 
-        const events = await Event.find({ userId });
-        res.status(200).json(events);
+//         const events = await Event.find({ userId });
+//         res.status(200).json(events);
+//     } catch (error) {
+//         console.error(error); // Log the error for debugging
+//         res.status(500).json({ msg: 'Server error', error: error.message });
+//     }
+// };
+
+// Get all events for a specific user
+exports.getEvents = async (req, res) => {
+    try {
+      const userId = req.user.userId; // Assuming userId is set in the request object
+  
+      if (!userId) {
+        return res.status(400).json({ msg: 'User ID not found' });
+      }
+  
+      const events = await Event.find({ userId });
+      res.status(200).json(events);
     } catch (error) {
-        console.error(error); // Log the error for debugging
-        res.status(500).json({ msg: 'Server error', error: error.message });
+      console.error("Error fetching events:", error); // Log the error for debugging
+      res.status(500).json({ msg: 'Server error', error: error.message });
     }
-};
-
-
+  };
   
 
 // Delete an event
